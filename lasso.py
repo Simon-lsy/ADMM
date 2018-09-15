@@ -1,5 +1,6 @@
 import numpy as np
 from numpy import linalg as la
+import scipy
 from scipy import sparse
 import matplotlib.pyplot as plt
 
@@ -76,20 +77,16 @@ def lassoSolver(A, b, lamda, rho):
 if __name__ == '__main__':
     m = 1500  # number of examples
     n = 5000  # number of features
-    p = np.true_divide(100, n)  # sparsity density
+    p = 100.0/n  # sparsity density
 
-    # 稀疏正态分布随机矩阵
-    x0 = np.random.randn(int(n * p), 1)
-    z = np.zeros([n - len(x0), 1])
-    x0 = np.vstack((x0, z))
-    np.random.shuffle(x0)
-    x0 = np.mat(x0)
+    x0 = scipy.sparse.rand(n, 1, density=p).toarray()
 
     # 二维正态分布
     A = np.random.randn(m, n)
     A = np.mat(A)
 
     A = np.dot(A, sparse.spdiags(1 / np.sqrt(sum(np.multiply(A, A))), 0, n, n).todense())  # normalize column
+
     b = np.dot(A, x0) + np.sqrt(0.001) * np.random.randn(m, 1)
 
     lambda_max = la.norm(np.dot(A.T, b), np.inf)
