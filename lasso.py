@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 
 MAX_ITER = 100    # Maximum number of update iterations
 ABS_TOL = 1e-4  # absolute tolerance
-REL_TOL = 1e-4  # relative tolerance
+REL_TOL = 1e-2  # relative tolerance
 
 
 # soft thresholding operator S(Page 32)
